@@ -38,7 +38,7 @@ if(isset($_POST['signupbutton'])) {
    	 			//Hashing the passoword
    	 			$hashedPwd = password_hash($password, PASSWORD_DEFAULT);
    	 			//Insert the user into the database
-   	 			$sql = "INSERT INTO Users (username, email, user_password, books_count, following, followers) VALUES ('$username', '$email', '$hashedPwd', 0, '', '');";
+   	 			$sql = "INSERT INTO Users (username, email, user_password, book_count, following, followers) VALUES ('$username', '$email', '$hashedPwd', 0, '', '');";
 
    	 			mysqli_query($conn, $sql);
 
