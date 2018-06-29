@@ -1,4 +1,8 @@
-
+<?php
+  session_start();
+  include 'connection.php';
+  include 'createTable.php';
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,11 +78,37 @@
         color: #000;
       }
 
-      button {
-        width: 60px;
+      #findBooks {
+        width: 70px;
         background: rgb(255, 0, 64);
         border: 0;
         border-radius: 4px;
+      }
+
+      #findBooks:hover {
+        cursor: pointer;
+      }
+
+      .content {
+        width: 60%;
+        margin: auto;
+        background: #fff;
+      }
+
+      .items {
+        height: 100px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+      }
+
+      .details {
+        width: 600px;
+        float: right;
+      }
+
+      .thumbanail {
+        width: auto;
+        float: left;
       }
 
 
@@ -90,19 +120,32 @@
       <div class="profile"><a href="profile.php">Profile</a></div>
 
       <div class="searchBar">
-        <select name="searchBar">
-          <option id="title">Title</option>
-          <option id="author">Author</option>
-          <option id="publisher">Publisher</option>
-          <option id="isbn">ISBN</option>
-        </select>
+        <form class="searcher" autocomplete="off">
+          <select name="searchBar" id="optionBar">
+            <option id="title">Title</option>
+            <option id="author">Author</option>
+            <option id="publisher">Publisher</option>
+            <option id="isbn">ISBN</option>
+          </select>
 
-        <input type="text" name="bookQuery" placeholder="Enter book detail">
-        <button>Find Users</button>
+          <input type="text" name="bookQuery" placeholder="Enter book detail" id="finder" onkeyup="findBookData(this.value)">
+          <input type="submit" value="Find Books" name="submit" id="findBooks">
+        </form>
       </div>
 
-      <div class="logout"><a href="welcome.html">Log Out</a></div>
+      <div class="logout">
+        <a href="welcome.html">Log Out</a>
+      </div>
     </header>
+
+    <!-- Main wrapper containing the books -->
+    <div class="main-wrapper">
+      <div class="content" id="content">
+      </div>
+    </div>
+
+    <script type="text/javascript" src="findBooks.js"></script>
+
 
   </body>
 </html>

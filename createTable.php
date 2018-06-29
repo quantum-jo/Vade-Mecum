@@ -1,12 +1,12 @@
 <?php
 
-session_start();
+
 
 include 'connection.php';
 
-$username = $_SESSION['username']
+$username = $_SESSION['username'];
 
-$sql = "CREATE TABLE $username (
+$table = "CREATE TABLE $username (
           id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           volumeID VARCHAR(500) NOT NULL UNIQUE,
           title VARCHAR(500),
@@ -17,4 +17,4 @@ $sql = "CREATE TABLE $username (
           favourite VARCHAR(500)
         ); ";
 
-mysqli_query($conn, $sql);
+mysqli_query($conn, $table);

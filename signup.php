@@ -2,17 +2,18 @@
 
 session_start();
 
+
 if(isset($_POST['signupbutton'])) {
 
    include_once 'connection.php' ;
 
    $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $username = mysqli_real_escape_string($conn, $_POST['username']);
-   $password = mysqli_real_escape_string($conn, $_POST['password']);
+   $uid = mysqli_real_escape_string($conn, $_POST['username']);
+   $pwd = mysqli_real_escape_string($conn, $_POST['password']);
 
    //Error handlers
    //Check for empty fields
-   if(empty($email) || empty($username) || empty($password)) {
+   if(empty($email) || empty($uid) || empty($pwd)) {
       header("Location: signup.php?signup=entervalue");
 	    exit();
 
@@ -24,7 +25,7 @@ if(isset($_POST['signupbutton'])) {
 	      exit();
 
    	 	} else {
-   	 		$sql = "SELECT * FROM Users WHERE username='$username'";
+   	 		$sql = "SELECT * FROM users WHERE username='$uid'";
    	 		$result = mysqli_query($conn, $sql);
    	 		$resultCheck = mysqli_num_rows($result);
 
@@ -36,25 +37,26 @@ if(isset($_POST['signupbutton'])) {
    	 		} else {
 
    	 			//Hashing the passoword
-   	 			$hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+   	 			$hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
    	 			//Insert the user into the database
-   	 			$sql = "INSERT INTO Users (username, email, user_password, book_count, following, followers) VALUES ('$username', '$email', '$hashedPwd', 0, '', '');";
+          $bookCount = 0;
+   	 			$sql = "INSERT INTO Users (username, email, user_password, book_count) VALUES ('$uid', '$email', '$hashedPwd', '$bookCount');";
 
-   	 			mysqli_query($conn, $sql);
+   	 			if(!mysqli_query($conn, $sql)) {
+            die("queryfailed!".mysqli_error($conn));
+          }
 
           //set session username to user name obtained from form
           $_SESSION['username']= $_POST['username'];
-          echo "Successfully signed in";
 
-   	 			header("Location: createTable.php");
+
+   	 			header("Location: homeScreen.php?signup=success");
+          exit();
 
    	 		}
    	 	}
    }
 
-} else {
-	header("Location: signup.php");
-	exit();
 }
 
 ?>
@@ -75,12 +77,13 @@ if(isset($_POST['signupbutton'])) {
 
       body {
         font-family: 'Raleway';
+        background: rgb(38, 38, 38);
       }
 
       header {
         text-align: center;
         height: 80px;
-        background: rgb(134, 126, 121);
+        background: rgb(255, 191, 0);
         padding-bottom: 30px;
       }
 
@@ -112,7 +115,7 @@ if(isset($_POST['signupbutton'])) {
       }
 
       .wrapper {
-        background: #ddd;
+        background: rgb(38, 38, 38);
         min-height: 300px;
         margin-top: 20px;
       }
@@ -138,19 +141,16 @@ if(isset($_POST['signupbutton'])) {
         outline: none;
       }
 
-      button {
+      #submit {
         width: 50px;
-        height: 30px;
-        font-size: 14px;
-        background: rgb(255, 102, 0);
-        border: 0;
-        border-radius: 4px;
+        background: rgb(255, 191, 39);
+        padding: 0;
       }
 
-      button:hover {
+      #submit:hover {
         cursor: pointer;
-        background: rgb(128, 51, 0);
       }
+
 
     </style>
   </head>
@@ -170,7 +170,7 @@ if(isset($_POST['signupbutton'])) {
               <input type="text" placeholder="username" name="username" required>
               <input type="text" placeholder="email" name="email" required>
               <input type="password" placeholder="password" name="password" required>
-              <button type="button" name="signupbutton">Submit</button>
+              <input type="submit" name="signupbutton" value="submit" id="submit">
             </form>
           </div>
         </div>
