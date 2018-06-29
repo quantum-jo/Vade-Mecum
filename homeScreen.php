@@ -2,6 +2,8 @@
   session_start();
   include 'connection.php';
   include 'createTable.php';
+
+  
  ?>
 
 <!DOCTYPE html>

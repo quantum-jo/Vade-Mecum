@@ -4,7 +4,12 @@ var author;
 var ImageLink;
 var volumeID;
 
-var bookShelf = new array();
+var bookShelf = {
+  var title;
+  var author;
+  var ImageLink;
+  var volumeID;
+};
 
 var wrapper = document.getElementById('content');
 
@@ -58,6 +63,7 @@ function addToDOM(i) {
   var authorDiv = document.createElement('div');
   var idDiv = document.createElement('div');
   idDiv.setAttribute('id', 'bookVol'+i);
+  idDiv.style.display = 'none';
 
 
   var titleText = document.createTextNode('Title: '+title);
@@ -82,6 +88,38 @@ function addToDOM(i) {
 }
 
 function addToLibrary(getID) {
-  var item = document.getElementById('bookVol'+getID).innerText;
+  var value = document.getElementById('bookVol'+getID).innerText;
+  console.log(value);
 
+  var xhttp = new XMLHttpRequest;
+  xhttp.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200) {
+      data = JSON.parse(this.responseText);
+
+      bookShelf.title = data.items[0].volumeInfo.title;
+      bookShelf.author = data.items[0].volumeInfo.authors[0];
+      bookShelf.ImageLink = data.items[0].volumeInfo.imageLinks.smallThumbnail;
+      bookShelf.volumeID = data.items[0].id;
+
+      AddBookToTable(bookShelf);
+    }
+  };
+
+  xhttp.open('GET', 'https://www.googleapis.com/books/v1/volumes?q='+value, true);
+  xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+  xhttp.send();
+}
+
+function AddBookToTable(bookList) {
+  var book_list = JSON.stringify(bookList);
+
+  var xhttp = new XMLHttpRequest;
+  xhttp.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200) {
+      console.log('added');
+      window.location = 'profile.php';
+    }
+  };
+  xhttp.open('GET', 'addBook.php?q='+book_list, true);
+  xhttp.send();
 }
