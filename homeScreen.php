@@ -92,17 +92,24 @@
       .content {
         width: 60%;
         margin: auto;
-        background: #fff;
+        background: #ddd;
       }
 
       .items {
-        height: 100px;
-        border: 1px solid #ccc;
+        height: 200px;
+        border: 2px solid #ccc;
         margin-bottom: 20px;
+        background: #fff;
+      }
+
+      .items:hover {
+        background: rgb(18, 22, 33);
+        color: #fff;
+        cursor: pointer;
       }
 
       .details {
-        width: 600px;
+        width: 550px;
         float: right;
       }
 
