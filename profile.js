@@ -1,5 +1,5 @@
 var favShelf;
-var favBooks = new array();
+var favBooks = new Array();
 var id;
 
 //Retrieves books present in user's library
