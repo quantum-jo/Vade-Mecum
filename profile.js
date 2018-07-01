@@ -1,4 +1,6 @@
 var favShelf;
+var favBooks = new array();
+var id;
 
 //Retrieves books present in user's library
 function getAllBooks() {
@@ -10,6 +12,9 @@ function getAllBooks() {
       while(data.length != 0) {
         var lib = data[j];
         drawToDOM(j, lib);
+        if(lib.favourite == 'yes') {
+          favBooks.push(lib);
+        }
         j++;
       }
     }
@@ -71,13 +76,20 @@ function getAllBooks() {
   var idText = document.createTextNode(lib.volumeID);
 
   var favouritesButton= document.createElement('button');
-  favouritesButton.innerText = "Add to Favourites";
-  favouritesButton.setAttribute('onclick', 'addToFav(this);');
+  if(lib.favourite == 'no') {
+    favouritesButton.innerText = "Add to Favourites";
+    favouritesButton.setAttribute('onclick', 'addToFav(this);');
+  } else {
+    favouritesButton.innerText = "Favourite";
+    favouritesButton.style.background = 'gray';
+  }
+
 
   var likerButton = document.createElement('a');
   likerButton.innerHTML = "<i class='fa fa-thumbs-o-up'></i>";
   likerButton.setAttribute('class', 'thumbsUp');
   likerButton.setAttribute('onclick', 'applyLike(this);');
+
 
   titleDiv.appendChild(titleText);
   authorDiv.appendChild(authorText);
@@ -107,7 +119,8 @@ getAllBooks();
 function changer(fav) {
   var item = fav.parentNode.parentNode.parentNode;
   var cover = fav.parentNode.parentNode;
-  var id = item.id;
+  id = item.id;
+
 
   var title = cover.firstChild.innerText;
   return title;
@@ -116,12 +129,14 @@ function changer(fav) {
 //Add to favourites
 function addToFav(fav) {
   changeStatus(changer(fav), 'fav');
-
+  fav.innerText = 'Added to Favourites';
+  fav.style.background = 'gray';
 }
 
 //Add to liked
 function applyLike(lik) {
   changeStatus(changer(lik), 'liked');
+  lik.firstChild.style.background = 'blue';
 }
 
 //function to update status in table
@@ -134,4 +149,15 @@ function changeStatus(title, text) {
   };
   xhttp.open('GET', 'changeStatus.php?q='+title+'&p='+text, true);
   xhttp.send();
+}
+
+//Draw favourite books when favourites button is clicked
+function favLib() {
+  while(wrapper.firstChild) {
+    wrapper.removeChild(wrapper.firstChild);
+  }
+  var k = 0;
+  while(k < favBooks.length) {
+    addToDOM(k, favBooks[k]);
+  }
 }

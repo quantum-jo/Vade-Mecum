@@ -13,7 +13,7 @@
 
   if(mysqli_num_rows($result) !=0) {
     while($row = mysqli_fetch_assoc($result)) {
-      $temp = array('title'=>$row['title'], 'author'=>$row['author'], 'ImageLink'=>$row['ImageLink'], 'volumeID'=>$row['volumeID']);
+      $temp = array('title'=>$row['title'], 'author'=>$row['author'], 'ImageLink'=>$row['ImageLink'], 'volumeID'=>$row['volumeID'], 'liked'=>$row['liked'], 'favourite'=>$row['favourite']);
       array_push($shelfData, $temp);
     }
   }
