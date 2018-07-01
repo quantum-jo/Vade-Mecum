@@ -214,7 +214,7 @@ function favLib() {
     wrapper.removeChild(wrapper.firstChild);
   }
   var k = 0;
-  while(j < favBooks.length) {
+  while(k < favBooks.length) {
     var lib = favBooks[k];
     favBooksShelf(k, lib);
     k++;
