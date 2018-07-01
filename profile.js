@@ -67,7 +67,7 @@ function getAllBooks() {
 
 
   var idDiv = document.createElement('div');
-  idDiv.id = 'bookVol'+j;
+    idDiv.id = 'bookVol'+j;
   idDiv.style.display = 'none';
 
 
@@ -131,6 +131,7 @@ function addToFav(fav) {
   changeStatus(changer(fav), 'fav');
   fav.innerText = 'Added to Favourites';
   fav.style.background = 'gray';
+  favBooks.push(data[id]);
 }
 
 //Add to liked
@@ -151,13 +152,71 @@ function changeStatus(title, text) {
   xhttp.send();
 }
 
+function favBooksShelf(k, lib) {
+  var items = document.createElement('div');
+  items.setAttribute('class', 'items');
+
+  var img = document.createElement('img');
+  img.setAttribute('src', lib.ImageLink+'&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api');
+
+  var details = document.createElement('div');
+  details.setAttribute('class', 'details');
+
+  var titleDiv = document.createElement('div');
+  titleDiv.setAttribute('class', 'credentials');
+
+  var authorDiv = document.createElement('div');
+  authorDiv.setAttribute('class', 'credentials');
+
+  var favouritesAdder = document.createElement('div');
+  authorDiv.setAttribute('class', 'credentials');
+
+  var liker = document.createElement('div');
+  liker.setAttribute('class', 'credentials');
+
+
+  var titleText = document.createTextNode(lib.title);
+  var authorText = document.createTextNode(lib.author);
+
+  var favouritesButton= document.createElement('button');
+    favouritesButton.innerText = "Favourite";
+    favouritesButton.style.background = 'gray';
+
+
+  var likerButton = document.createElement('a');
+  likerButton.innerHTML = "<i class='fa fa-thumbs-o-up'></i>";
+  likerButton.setAttribute('class', 'thumbsUp');
+  likerButton.setAttribute('onclick', 'applyLike(this);');
+
+
+  titleDiv.appendChild(titleText);
+  authorDiv.appendChild(authorText);
+  idDiv.appendChild(idText);
+
+  favouritesAdder.appendChild(favouritesButton);
+  liker.appendChild(likerButton);
+
+
+  items.appendChild(img);
+
+  details.appendChild(titleDiv);
+  details.appendChild(authorDiv);
+  details.appendChild(favouritesAdder);
+  details.appendChild(liker);
+
+  items.appendChild(details);
+  wrapper.appendChild(items);
+}
+
 //Draw favourite books when favourites button is clicked
 function favLib() {
   while(wrapper.firstChild) {
     wrapper.removeChild(wrapper.firstChild);
   }
   var k = 0;
-  while(k < favBooks.length) {
-    addToDOM(k, favBooks[k]);
+  while(j < favBooks.length) {
+    var lib = favBooks[k];
+    favBooksShelf(k, lib);
+    k++;
   }
 }

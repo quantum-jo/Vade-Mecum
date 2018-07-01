@@ -124,7 +124,7 @@
       <nav>
         <ul>
           <li><a href="homeScreen.php">Home</a></li>
-          <li><a id="favourites" onclick="favLib()">Favourites</a></li>
+          <li><a id="favourites" onclick="favLib()" href="#">Favourites</a></li>
           <li><a id="currentReads">Current Reads</a></li>
           <li><a id="activity">Activity</a></li>
           <li><a id="findUsers">Find Users</a></li>
