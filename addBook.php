@@ -7,10 +7,21 @@
   $uid = mysqli_real_escape_string($conn, $uid);
 
   $q = $_GET['q'];
+  $p = $_GET['p'];
+  $r = $_GET['r'];
+  $s = $_GET['s'];
 
-  $book_list = json_decode($q);
+
   $status = "Want to Read";
   $liked = "no";
   $favourite = "no";
 
-  $sql = "INSERT INTO $uid (volumeID, title, author, ImageLink, status, liked, favourite) VALUES ();"
+  $sql = "INSERT INTO $uid (volumeID, title, author, ImageLink, status, liked, favourite) VALUES ('$s', '$q', '$p', '$r', '$status', '$liked', '$favourite');";
+
+  if(!mysqli_query($conn, $sql)) {
+    die("queryfailed!".mysqli_error($conn));
+  }
+
+
+
+  ?>

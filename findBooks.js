@@ -4,13 +4,7 @@ var author;
 var ImageLink;
 var volumeID;
 
-var bookShelf = {
-  var title;
-  var author;
-  var ImageLink;
-  var volumeID;
-};
-
+var bookShelf = new Object();
 var wrapper = document.getElementById('content');
 
 function findBookData(value) {
@@ -51,7 +45,7 @@ function addToDOM(i) {
   var items = document.createElement('div');
   items.setAttribute('class', 'items');
   items.setAttribute('id', i);
-  items.setAttribute('click', 'addToLibrary(this.id)');
+    items.setAttribute('onclick', 'addToLibrary(this.id)');
 
   var img = document.createElement('img');
   img.setAttribute('src', ImageLink);
@@ -88,6 +82,11 @@ function addToDOM(i) {
 }
 
 function addToLibrary(getID) {
+  console.log('enters function');
+  var item = document.getElementById(getID);
+  item.style.background = "rgb(18, 22, 33)";
+  item.style.color = "rgb(255, 255, 255)";
+
   var value = document.getElementById('bookVol'+getID).innerText;
   console.log(value);
 
@@ -102,6 +101,7 @@ function addToLibrary(getID) {
       bookShelf.volumeID = data.items[0].id;
 
       AddBookToTable(bookShelf);
+      window.location = 'profile.php';
     }
   };
 
@@ -111,15 +111,18 @@ function addToLibrary(getID) {
 }
 
 function AddBookToTable(bookList) {
-  var book_list = JSON.stringify(bookList);
+  var book_title = bookList.title;
+  var book_author = bookList.author;
+  var book_ImageLink = bookList.ImageLink;
+  var book_volumeID = bookList.volumeID;
 
   var xhttp = new XMLHttpRequest;
   xhttp.onreadystatechange = function() {
     if(this.readyState == 4 && this.status == 200) {
-      console.log('added');
-      window.location = 'profile.php';
+      console.log(this.responseText);
+
     }
   };
-  xhttp.open('GET', 'addBook.php?q='+book_list, true);
+  xhttp.open('GET', 'addBook.php?q='+book_title+'&p='+book_author+'&r='+book_ImageLink+'&s='+book_volumeID, true);
   xhttp.send();
 }

@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="reset.css">
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
     body {
@@ -61,7 +62,7 @@
     }
 
     .items {
-      height: 200px;
+      height: 230px;
       border: 2px solid #ccc;
       margin-bottom: 20px;
       background: #fff;
@@ -82,6 +83,38 @@
       width: auto;
       float: left;
     }
+
+    .credentials {
+      margin-top: 10px;
+    }
+
+    select {
+      background: rgb(80, 223, 32);
+      border: 0;
+      border-radius: 4px;
+      margin-top: 10px;
+      padding: 5px;
+    }
+
+    option {
+      background: #ddd;
+    }
+
+    button {
+      border: 0;
+      border-radius: 4px;
+      background: rgb(6, 103, 249);
+      color: #fff;
+      margin-top: 10px;
+      height: 25px;
+      padding: 5px;
+    }
+
+    button:hover {
+      cursor: pointer;
+      background: rgb(70, 116, 185);
+    }
+
 
     </style>
   </head>
@@ -107,5 +140,6 @@
     </div>
 
     <script type="text/javascript" src="findBooks.js"></script>
+    <script type="text/javascript" src="profile.js"></script>
   </body>
 </html>
