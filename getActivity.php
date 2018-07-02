@@ -4,8 +4,11 @@
 
 	$t = $_SESSION['username'];
 
-	$sql = "SELECT activity FROM users WHERE username='$t';";
+	$sql = "SELECT * FROM users WHERE username='$t'";
 	$result = mysqli_query($conn, $sql);
-	echo $result;
+	$row = mysqli_fetch_assoc($result);
+	
+	echo json_encode($row['activity']);
+	
 
 ?>

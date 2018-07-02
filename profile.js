@@ -3,7 +3,7 @@ var favBooks = new Array();
 var currentReads = new Array();
 var id;
 
-var activityList = new Array();
+var activityList = [];
 
 //Retrieves books present in user's library
 function getAllBooks() {
@@ -108,7 +108,13 @@ function getAllBooks() {
   var likerButton = document.createElement('a');
   likerButton.innerHTML = "<i class='fa fa-thumbs-o-up'></i>";
   likerButton.setAttribute('class', 'thumbsUp');
-  likerButton.setAttribute('onclick', 'applyLike(this);');
+
+  if(lib.liked == 'yes') {
+    likerButton.style.background = 'blue';
+  } else {
+      likerButton.setAttribute('onclick', 'applyLike(this);');
+  }
+
 
 
   titleDiv.appendChild(titleText);
@@ -211,7 +217,12 @@ function favBooksShelf(k, lib) {
   var likerButton = document.createElement('a');
   likerButton.innerHTML = "<i class='fa fa-thumbs-o-up'></i>";
   likerButton.setAttribute('class', 'thumbsUp');
-  likerButton.setAttribute('onclick', 'applyLike(this);');
+
+  if(lib.liked == 'yes') {
+    likerButton.style.background = 'blue';
+  } else {
+      likerButton.setAttribute('onclick', 'applyLike(this);');
+  }
 
 
   titleDiv.appendChild(titleText);
@@ -231,8 +242,9 @@ function favBooksShelf(k, lib) {
   items.appendChild(details);
   wrapper.appendChild(items);
 
- activityList.push("You added "+lib.title+" to favourites");
-  activityUpdate(lib.title);
+var text = "You added "+lib.title+" to favourites";
+ activityList.push(text);
+  activityUpdate();
 }
 
 //Draw favourite books when favourites button is clicked
@@ -257,20 +269,21 @@ function addToCurrents(goButton) {
   if(chosen == 'Currently reading') {
     changeStatus(changer(opt), 'reads');
     currentReads.push(data[id]);
-    activityList.push("You started reading "+changer(opt));
-    activityUpdate(changer(opt));
+    var text = "You started reading "+changer(opt);
+    activityList.push(text);
+    activityUpdate();
   } 
   if(chosen == 'Read') {
     changeStatus(changer(opt), 'read');
     currentReads.push(data[id]);
-    activityList.push("You finished reading "+changer(opt));
-    activityUpdate(changer(opt));
+    var text = "You finished reading "+changer(opt);
+    activityList.push(text);
+    activityUpdate();
   }
 }
 
 //Function that displays books in current reads
 function currentLib() {
-    console.log('adding to currents');
   while(wrapper.firstChild) {
     wrapper.removeChild(wrapper.firstChild);
   }
@@ -296,7 +309,7 @@ function activity() {
   }
 }
 
-function activityUpdate(headtitle) {
+function activityUpdate() {
   var xhttp = new XMLHttpRequest;
   xhttp.open('GET', 'activityUpdate.php?q='+JSON.stringify(activityList), true);
   xhttp.send();
@@ -305,7 +318,16 @@ function activityUpdate(headtitle) {
 function getActivity() {
   var xhttp = new XMLHttpRequest;
   xhttp.onreadystatechange = function() {
-    activityList = JSON.parse(this.responseText);
+    if(this.readyState == 4 && this.status == 200) {
+      var temp = JSON.parse(this.responseText);
+      console.log(temp);
+      if(temp == 'nothing') {
+        activityList = [];
+      } else {
+        activityList = temp;
+      }
+    }
+
   };
   xhttp.open('GET', 'getActivity.php', true);
   xhttp.send();
