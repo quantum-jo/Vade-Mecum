@@ -5,6 +5,7 @@ This app uses Google Books API
 
 
 
+
 ## Setting up the Data Base
 
 - Change $dbName to your data base name in connection.php
@@ -30,3 +31,14 @@ CREATE TABLE users (
 
 - The app uses password hashing 
 
+
+## Services
+
+- **Apache**
+- **PHP 7**
+- **SQL**
+- **JAVASCRIPT**
+
+### Additional Notes
+
+*Included font is Raleway*

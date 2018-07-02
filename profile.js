@@ -157,6 +157,19 @@ function changer(fav) {
   return title;
 }
 
+
+//function to update status in table
+function changeStatus(title, text) {
+  var xhttp = new XMLHttpRequest;
+  xhttp.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+    }
+  };
+  xhttp.open('GET', 'changeStatus.php?q='+title+'&p='+text, true);
+  xhttp.send();
+}
+
 //Add to favourites
 function addToFav(fav) {
   changeStatus(changer(fav), 'fav');
@@ -171,17 +184,6 @@ function applyLike(lik) {
   lik.firstChild.style.background = 'blue';
 }
 
-//function to update status in table
-function changeStatus(title, text) {
-  var xhttp = new XMLHttpRequest;
-  xhttp.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-    }
-  };
-  xhttp.open('GET', 'changeStatus.php?q='+title+'&p='+text, true);
-  xhttp.send();
-}
 
 function favBooksShelf(k, lib) {
   var items = document.createElement('div');
