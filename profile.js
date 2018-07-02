@@ -3,6 +3,8 @@ var favBooks = new Array();
 var currentReads = new Array();
 var id;
 
+var activityList = new Array();
+
 //Retrieves books present in user's library
 function getAllBooks() {
   var xhttp = new XMLHttpRequest;
@@ -92,6 +94,7 @@ function getAllBooks() {
   var authorText = document.createTextNode(lib.author);
   var idText = document.createTextNode(lib.volumeID);
 
+
   var favouritesButton= document.createElement('button');
   if(lib.favourite == 'no') {
     favouritesButton.innerText = "Add to Favourites";
@@ -131,6 +134,8 @@ function getAllBooks() {
 
   items.appendChild(details);
     wrapper.appendChild(items);
+
+    getActivity();
 }
 
 getAllBooks();
@@ -225,6 +230,9 @@ function favBooksShelf(k, lib) {
 
   items.appendChild(details);
   wrapper.appendChild(items);
+
+ activityList.push("You added "+lib.title+" to favourites");
+  activityUpdate(lib.title);
 }
 
 //Draw favourite books when favourites button is clicked
@@ -249,10 +257,14 @@ function addToCurrents(goButton) {
   if(chosen == 'Currently reading') {
     changeStatus(changer(opt), 'reads');
     currentReads.push(data[id]);
+    activityList.push("You started reading "+changer(opt));
+    activityUpdate(changer(opt));
   } 
   if(chosen == 'Read') {
     changeStatus(changer(opt), 'read');
     currentReads.push(data[id]);
+    activityList.push("You finished reading "+changer(opt));
+    activityUpdate(changer(opt));
   }
 }
 
@@ -270,41 +282,32 @@ function currentLib() {
   }
 }
 
+function activity() {
+    while(wrapper.firstChild) {
+    wrapper.removeChild(wrapper.firstChild);
+  }
 
-//draw user onto DOM
-function drawUsers(userlist) {
-   while(wrapper.firstChild) {
-      wrapper.removeChild(wrapper.firstChild);
-    }
-
-    var items = document.createElement('div');
-    var span = document.createElement('span');
-    var followButton = document.createElement('button');
-
-    span.innerText = userlist;
-    followButton.innerText = "follow";
-
-    items.appendChild(span);
-    items.appendChild(followButton);
-
-    wrapper.appendChild(items);
+  for(var u = 0; u < activityList.length; u++) {
+      var items = document.createElement('div');
+      items.setAttribute('class', 'acti');
+      items.style.background = "#fff";
+      items.innerText = activityList[u];
+      wrapper.appendChild(items);
+  }
 }
 
-//function to display other users
-function userdb() {
-  var userlist = new Array();
+function activityUpdate(headtitle) {
+  var xhttp = new XMLHttpRequest;
+  xhttp.open('GET', 'activityUpdate.php?q='+JSON.stringify(activityList), true);
+  xhttp.send();
+}
 
+function getActivity() {
   var xhttp = new XMLHttpRequest;
   xhttp.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 200) {
-      userlist = JSON.parse(this.responseText);
-      for(var i = 0; i < userlist.length; i++) {
-        drawUsers(userlist[i]);        
-      }
-
-    }
+    activityList = JSON.parse(this.responseText);
   };
-  xhttp.open('GET', 'getUsers.php', true);
+  xhttp.open('GET', 'getActivity.php', true);
   xhttp.send();
 }
 

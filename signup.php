@@ -40,7 +40,8 @@ if(isset($_POST['signupbutton'])) {
    	 			$hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
    	 			//Insert the user into the database
           $bookCount = 0;
-   	 			$sql = "INSERT INTO Users (username, email, user_password, book_count) VALUES ('$uid', '$email', '$hashedPwd', '$bookCount');";
+          $activity = '';
+   	 			$sql = "INSERT INTO Users (username, email, user_password, book_count) VALUES ('$uid', '$email', '$hashedPwd', '$bookCount', '$activity');";
 
    	 			if(!mysqli_query($conn, $sql)) {
             die("queryfailed!".mysqli_error($conn));

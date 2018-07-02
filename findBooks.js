@@ -7,6 +7,7 @@ var volumeID;
 var bookShelf = new Object();
 var wrapper = document.getElementById('content');
 
+
 function findBookData(value) {
 
   var xhttp = new XMLHttpRequest;

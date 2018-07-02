@@ -2,8 +2,8 @@
 
 session_start();
 
-if(isset($_POST['loginButton'])) {
 
+if(isset($_POST['submit'])) {
  include 'connection.php';
 
  $uid = mysqli_real_escape_string($conn, $_POST['uid']);
@@ -17,7 +17,7 @@ if(isset($_POST['loginButton'])) {
  } else {
 
    //Fetch the user from the database table
-    $sql = "SELECT * FROM Users WHERE username='$uid' OR email='$uid'";
+    $sql = "SELECT * FROM users WHERE username='$uid' OR email='$uid'";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
 
@@ -49,8 +49,8 @@ if(isset($_POST['loginButton'])) {
       }
     }
  }
-}
 
+}
 
  ?>
 
@@ -164,7 +164,7 @@ if(isset($_POST['loginButton'])) {
           <form class="login-form" action="login.php" method="post" autocomplete="off">
             <input type="text" placeholder="Username/email" name="uid" required>
             <input type="password" placeholder="Password" name="pwd" required>
-            <input type="submit" name="loginbutton" value="Login" id="submit">
+            <input type="submit" name="submit" value="Login" id="submit">
           </form>
         </div>
       </div>
