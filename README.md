@@ -2,15 +2,19 @@
 
 This app uses Google Books API
 
-**Setting up the Data Base**
+
+
+
+## Setting up the Data Base
 
 - Change $dbName to your data base name in connection.php
 - Default table name is set as users
+- No default password is given to sql. This can be changed in connection.php
 
 
 
 
-*Code for users*
+**Code for users**
 
 
 CREATE TABLE users (
@@ -20,4 +24,9 @@ CREATE TABLE users (
 	password VARCHAR(500) NOT NULL
 );
 
+
+### Password
+
+
+- The app uses password hashing 
 
