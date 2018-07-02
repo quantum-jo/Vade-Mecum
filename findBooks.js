@@ -26,7 +26,7 @@ function findBookData(value) {
 
         for(var i = 0; i < count; i++) {
           title = data.items[i].volumeInfo.title;
-          author = data.items[i].volumeInfo.authors[0];
+          author = data.items[i].volumeInfo.authors;
           ImageLink = data.items[i].volumeInfo.imageLinks.smallThumbnail;
           volumeID = data.items[i].id;
           addToDOM(i);
@@ -96,7 +96,7 @@ function addToLibrary(getID) {
       data = JSON.parse(this.responseText);
 
       bookShelf.title = data.items[0].volumeInfo.title;
-      bookShelf.author = data.items[0].volumeInfo.authors[0];
+      bookShelf.author = data.items[0].volumeInfo.authors;
       bookShelf.ImageLink = data.items[0].volumeInfo.imageLinks.smallThumbnail;
       bookShelf.volumeID = data.items[0].id;
 

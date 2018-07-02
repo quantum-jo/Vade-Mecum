@@ -1,5 +1,6 @@
 var favShelf;
 var favBooks = new Array();
+var currentReads = new Array();
 var id;
 
 //Retrieves books present in user's library
@@ -55,7 +56,8 @@ function getAllBooks() {
   option1.innerText = "Want to read";
 
   var option2 = document.createElement('option');
-  option2.innerText = "Curently reading";
+  option2.innerText = "Currently reading";
+
 
   var option3 = document.createElement('option');
   option3.innerText = "Read";
@@ -63,6 +65,21 @@ function getAllBooks() {
   readSelect.add(option1);
   readSelect.add(option2);
   readSelect.add(option3);
+
+  if(lib.status == 'reads') {
+    readSelect.value = option2.innerText;
+  } 
+
+  if(lib.status == 'read') {
+    readSelect.value = option3.innerText;
+  }
+
+  var goSelectorDiv = document.createElement('div');
+  goSelectorDiv.setAttribute('id', 'goSelectorDiv');
+
+  var goSelector = document.createElement('button');
+  goSelector.setAttribute('onclick', 'addToCurrents(this)');
+  goSelector.innerText = "GO";
 
 
 
@@ -95,6 +112,10 @@ function getAllBooks() {
   authorDiv.appendChild(authorText);
   idDiv.appendChild(idText);
 
+      goSelectorDiv.appendChild(readSelect);
+    goSelectorDiv.appendChild(goSelector);
+
+
   favouritesAdder.appendChild(favouritesButton);
   liker.appendChild(likerButton);
 
@@ -103,7 +124,7 @@ function getAllBooks() {
 
   details.appendChild(titleDiv);
   details.appendChild(authorDiv);
-  details.appendChild(readSelect);
+  details.appendChild(goSelectorDiv);
   details.appendChild(favouritesAdder);
   details.appendChild(liker);
   details.appendChild(idDiv);
@@ -120,7 +141,6 @@ function changer(fav) {
   var item = fav.parentNode.parentNode.parentNode;
   var cover = fav.parentNode.parentNode;
   id = item.id;
-
 
   var title = cover.firstChild.innerText;
   return title;
@@ -190,8 +210,7 @@ function favBooksShelf(k, lib) {
 
 
   titleDiv.appendChild(titleText);
-  authorDiv.appendChild(authorText);
-  idDiv.appendChild(idText);
+  authorDiv.appendChild(authorText);  
 
   favouritesAdder.appendChild(favouritesButton);
   liker.appendChild(likerButton);
@@ -220,3 +239,72 @@ function favLib() {
     k++;
   }
 }
+
+//changes status of the book to 'currently reading'
+function addToCurrents(goButton) {
+  var opt = goButton.parentNode.firstChild;
+  var chosen = opt.options[opt.selectedIndex].text;
+
+
+  if(chosen == 'Currently reading') {
+    changeStatus(changer(opt), 'reads');
+    currentReads.push(data[id]);
+  } 
+  if(chosen == 'Read') {
+    changeStatus(changer(opt), 'read');
+    currentReads.push(data[id]);
+  }
+}
+
+//Function that displays books in current reads
+function currentLib() {
+    console.log('adding to currents');
+  while(wrapper.firstChild) {
+    wrapper.removeChild(wrapper.firstChild);
+  }
+  var k = 0;
+  while(k < currentReads.length) {
+    var sender = currentReads[k];
+    favBooksShelf(k, sender);
+    k++;
+  }
+}
+
+
+//draw user onto DOM
+function drawUsers(userlist) {
+   while(wrapper.firstChild) {
+      wrapper.removeChild(wrapper.firstChild);
+    }
+
+    var items = document.createElement('div');
+    var span = document.createElement('span');
+    var followButton = document.createElement('button');
+
+    span.innerText = userlist;
+    followButton.innerText = "follow";
+
+    items.appendChild(span);
+    items.appendChild(followButton);
+
+    wrapper.appendChild(items);
+}
+
+//function to display other users
+function userdb() {
+  var userlist = new Array();
+
+  var xhttp = new XMLHttpRequest;
+  xhttp.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200) {
+      userlist = JSON.parse(this.responseText);
+      for(var i = 0; i < userlist.length; i++) {
+        drawUsers(userlist[i]);        
+      }
+
+    }
+  };
+  xhttp.open('GET', 'getUsers.php', true);
+  xhttp.send();
+}
+
